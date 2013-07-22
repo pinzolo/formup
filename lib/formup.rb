@@ -19,6 +19,15 @@ module Formup
 
   # Class methods {{{
   module ClassMethods
+    def exclude_attributes(*attributes)
+      if attributes && attributes.length > 0
+        @exclude_attributes = attributes
+      else
+        @exclude_attributes ||= [:id]
+      end
+      @exclude_attributes
+    end
+
     def sources
       initialize_sources
       @sources.dup
@@ -63,6 +72,16 @@ module Formup
   # Instance methods {{{
   def persisted?
     false
+  end
+
+  def params_for(key, full = false)
+    parameters = {}.with_indifferent_access
+    return parameters unless self.class.sources.key?(key)
+
+    self.class.sources[key].inject(parameters) do |result, (key, value)|
+      result[key] = __send__(value) if full || self.class.exclude_attributes.all? { |attr| attr.to_sym != key.to_sym }
+      result
+    end
   end
   # }}}
 end
