@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Formup::VERSION
   spec.authors       = ["pinzlo"]
   spec.email         = ["pinzolo@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{formup is rubygem for creating data model based form class}
+  spec.summary       = %q{Create data model based form class}
+  spec.homepage      = "https://github.com/pinzolo/formup"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -18,6 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_runtime_dependency "activemodel", "~>3.2"
+
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 end
