@@ -8,18 +8,24 @@ describe Formup do
       class TestClassForParamsFor1
         include Formup
         source :key1, :attributes => [:id, :name, :value]
-        source :key2, :aliases => { :id => :key, :name => :label }
+        source :key2, :attributes => [:email], :aliases => { :id => :key, :name => :label }
+      end
+    end
+
+    before(:each) do
+      @obj = TestClassForParamsFor1.new do
+        key1_id = 1
+        key1_name = "foo"
+        key1_value = "bar"
+        key = 2
+        label = "baz"
+        key2_email = "hoge@example.com"
       end
     end
 
     describe "#params_for(key)" do
       it "returned hash does'nt contain id key(declared by attributes)" do
-        obj = TestClassForParamsFor1.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1)
+        params = @obj.params_for(:key1)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq false
         expect(params.key?(:name)).to eq true
@@ -27,25 +33,17 @@ describe Formup do
       end
 
       it "returned hash does'nt contain id key(declared by aliases)" do
-        obj = TestClassForParamsFor1.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2)
-        expect(params.length).to eq 1
+        params = @obj.params_for(:key2)
+        expect(params.length).to eq 2
         expect(params.key?(:id)).to eq false
         expect(params.key?(:name)).to eq true
+        expect(params.key?(:email)).to eq true
       end
     end
 
     describe "#params_for(key, false)" do
       it "returned hash does'nt contain id key(declared by attributes)" do
-        obj = TestClassForParamsFor1.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1, false)
+        params = @obj.params_for(:key1, false)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq false
         expect(params.key?(:name)).to eq true
@@ -53,25 +51,17 @@ describe Formup do
       end
 
       it "returned hash does'nt contain id key(declared by aliases)" do
-        obj = TestClassForParamsFor1.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2, false)
-        expect(params.length).to eq 1
+        params = @obj.params_for(:key2, false)
+        expect(params.length).to eq 2
         expect(params.key?(:id)).to eq false
         expect(params.key?(:name)).to eq true
+        expect(params.key?(:email)).to eq true
       end
     end
 
     describe "params_for(key, true)" do
       it "returned hash contains id key(declared by attributes)" do
-        obj = TestClassForParamsFor1.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1, true)
+        params = @obj.params_for(:key1, true)
         expect(params.length).to eq 3
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq true
@@ -79,14 +69,11 @@ describe Formup do
       end
 
       it "returned hash contains id key(declared by aliases)" do
-        obj = TestClassForParamsFor1.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2, true)
-        expect(params.length).to eq 2
+        params = @obj.params_for(:key2, true)
+        expect(params.length).to eq 3
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq true
+        expect(params.key?(:email)).to eq true
       end
     end
   end
@@ -101,14 +88,20 @@ describe Formup do
       end
     end
 
+    before(:each) do
+      @obj = TestClassForParamsFor2.new do
+        key1_id = 1
+        key1_name = "foo"
+        key1_value = "bar"
+        key = 2
+        label = "baz"
+        key2_email = "hoge@example.com"
+      end
+    end
+
     describe "#params_for(key)" do
       it "returned hash does'nt contain name key(declared by attributes)" do
-        obj = TestClassForParamsFor2.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1)
+        params = @obj.params_for(:key1)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
@@ -116,11 +109,7 @@ describe Formup do
       end
 
       it "returned hash does'nt contain id key(declared by aliases)" do
-        obj = TestClassForParamsFor2.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2)
+        params = @obj.params_for(:key2)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
@@ -130,12 +119,7 @@ describe Formup do
 
     describe "#params_for(key, false)" do
       it "returned hash does'nt contain name key(declared by attributes)" do
-        obj = TestClassForParamsFor2.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1, false)
+        params = @obj.params_for(:key1, false)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
@@ -143,11 +127,7 @@ describe Formup do
       end
 
       it "returned hash does'nt contain id key(declared by aliases)" do
-        obj = TestClassForParamsFor2.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2, false)
+        params = @obj.params_for(:key2, false)
         expect(params.length).to eq 2
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
@@ -157,12 +137,7 @@ describe Formup do
 
     describe "params_for(key, true)" do
       it "returned hash contains name key(declared by attributes)" do
-        obj = TestClassForParamsFor2.new do
-          key1_id = 1
-          key1_name = "foo"
-          key1_value = "bar"
-        end
-        params = obj.params_for(:key1, true)
+        params = @obj.params_for(:key1, true)
         expect(params.length).to eq 3
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq true
@@ -170,11 +145,7 @@ describe Formup do
       end
 
       it "returned hash contains id key(declared by aliases)" do
-        obj = TestClassForParamsFor2.new do
-          key = 1
-          label = "foo"
-        end
-        params = obj.params_for(:key2, true)
+        params = @obj.params_for(:key2, true)
         expect(params.length).to eq 3
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq true
