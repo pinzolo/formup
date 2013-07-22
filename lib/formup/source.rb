@@ -6,7 +6,7 @@ module Formup
 
     attr_accessor :key, :attribute_defs
     def initialize(key, attribute_defs = {})
-      raise "Formup::Source require key param." if k(class << Hoge; self end).included_modules.include?(Foo)ey.nil?
+      raise "Formup::Source require key param." if key.nil?
 
       @key = key.to_s
       @attribute_defs = attribute_defs.with_indifferent_access
