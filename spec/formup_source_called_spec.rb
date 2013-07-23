@@ -8,8 +8,8 @@ describe Formup do
       class TestClassForSourceCalled
         include Formup
         source :key1, :attributes => [:attr1, :attr2, :attr3]
-        source :key2, :aliases => {:attr1 => :alias1, :attr2 => :alias2}
-        source :key3, :attributes => [:attr1, :attr2], :aliases => {:attr3 => :alias3, :attr4 => :alias4}
+        source :key2, :aliases => {:attr1 => :alias1, :attr2 => :alias2}, :excludes => :attr1
+        source :key3, :attributes => [:attr1, :attr2], :aliases => {:attr3 => :alias3, :attr4 => :alias4}, :excludes => [:attr3, :attr4]
       end
     end
 
@@ -29,18 +29,24 @@ describe Formup do
       end
 
       it "has values joined key and attributes" do
-        expect(TestClassForSourceCalled.sources[:key1][:attr1]).to eq "key1_attr1"
-        expect(TestClassForSourceCalled.sources[:key1][:attr2]).to eq "key1_attr2"
-        expect(TestClassForSourceCalled.sources[:key1][:attr3]).to eq "key1_attr3"
-        expect(TestClassForSourceCalled.sources[:key3][:attr1]).to eq "key3_attr1"
-        expect(TestClassForSourceCalled.sources[:key3][:attr2]).to eq "key3_attr2"
+        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr1]).to eq "key1_attr1"
+        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr2]).to eq "key1_attr2"
+        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr3]).to eq "key1_attr3"
+        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr1]).to eq "key3_attr1"
+        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr2]).to eq "key3_attr2"
       end
 
       it "has values given by aliases" do
-        expect(TestClassForSourceCalled.sources[:key2][:attr1]).to eq "alias1"
-        expect(TestClassForSourceCalled.sources[:key2][:attr2]).to eq "alias2"
-        expect(TestClassForSourceCalled.sources[:key3][:attr3]).to eq "alias3"
-        expect(TestClassForSourceCalled.sources[:key3][:attr4]).to eq "alias4"
+        expect(TestClassForSourceCalled.sources[:key2].attribute_defs[:attr1]).to eq "alias1"
+        expect(TestClassForSourceCalled.sources[:key2].attribute_defs[:attr2]).to eq "alias2"
+        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr3]).to eq "alias3"
+        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr4]).to eq "alias4"
+      end
+
+      it "has excludes" do
+        expect(TestClassForSourceCalled.sources[:key1].excludes).to eq [:id]
+        expect(TestClassForSourceCalled.sources[:key2].excludes).to eq [:attr1]
+        expect(TestClassForSourceCalled.sources[:key3].excludes).to eq [:attr3, :attr4]
       end
     end
 
