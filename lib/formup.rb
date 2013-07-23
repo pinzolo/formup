@@ -75,5 +75,28 @@ module Formup
       result
     end
   end
+
+  def initialize(params = {})
+    params.each do |k, v|
+      if self.class.sources.key?(k)
+        source = self.class.sources[k]
+        source.attribute_defs.each do |base, attr|
+          value = extract_value(v, base)
+          __send__(attr.to_s + "=", value) if value
+        end
+      end
+    end
+  end
+
+  private
+  def extract_value(obj, attr)
+    if obj.respond_to?(attr)
+      obj.__send__(attr)
+    elsif obj.respond_to?(:[])
+      obj[attr.to_s] || obj[attr.to_sym]
+    else
+      nil
+    end
+  end
   # }}}
 end
