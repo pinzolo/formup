@@ -9,33 +9,33 @@ require "active_model/translation"
 describe Formup do
   context "included" do
     before do
-      class TestClassForDefault
+      class TestClassForIncluded
         include Formup
       end
-      @obj = TestClassForDefault.new
+      @obj = TestClassForIncluded.new
     end
 
     describe ActiveModel::Conversion do
       it "is included" do
-        expect(TestClassForDefault.included_modules.include?(ActiveModel::Conversion)).to eq true
+        expect(TestClassForIncluded.included_modules.include?(ActiveModel::Conversion)).to eq true
       end
     end
 
     describe ActiveModel::Validations do
       it "contains ActiveModel::Validations" do
-        expect(TestClassForDefault.included_modules.include?(ActiveModel::Validations)).to eq true
+        expect(TestClassForIncluded.included_modules.include?(ActiveModel::Validations)).to eq true
       end
     end
 
     describe ActiveModel::Naming do
       it "is extended" do
-        expect((class << TestClassForDefault; self end).included_modules.include?(ActiveModel::Naming)).to eq true
+        expect((class << TestClassForIncluded; self end).included_modules.include?(ActiveModel::Naming)).to eq true
       end
     end
 
     describe ActiveModel::Translation do
       it "is extended" do
-        expect((class << TestClassForDefault; self end).included_modules.include?(ActiveModel::Translation)).to eq true
+        expect((class << TestClassForIncluded; self end).included_modules.include?(ActiveModel::Translation)).to eq true
       end
     end
 
@@ -51,17 +51,17 @@ describe Formup do
 
     describe ".source" do
       it "difined" do
-        expect(TestClassForDefault.respond_to?(:source)).to eq true
+        expect(TestClassForIncluded.respond_to?(:source)).to eq true
       end
     end
 
     describe ".sources" do
       it "defined" do
-        expect { TestClassForDefault.sources }.not_to raise_error
+        expect { TestClassForIncluded.sources }.not_to raise_error
       end
 
       it "returns empty Hash" do
-        expect(TestClassForDefault.sources.length).to eq 0
+        expect(TestClassForIncluded.sources.length).to eq 0
       end
     end
   end
