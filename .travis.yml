@@ -2,7 +2,3 @@ language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
-gemfile:
-  - gemfiles/activemodel_3_0_x.gemfile
-  - gemfiles/activemodel_3_1_x.gemfile
-  - gemfiles/activemodel_3_2_x.gemfile
