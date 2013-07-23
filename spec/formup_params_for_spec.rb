@@ -82,9 +82,8 @@ describe Formup do
     before do
       class TestClassForParamsFor2
         include Formup
-        exclude_attributes :name
-        source :key1, :attributes => [:id, :name, :value]
-        source :key2, :attributes => [:email], :aliases => { :id => :key, :name => :label }
+        source :key1, :attributes => [:id, :name, :value], :excludes => :name
+        source :key2, :attributes => [:email], :aliases => { :id => :key, :name => :label }, :excludes => [:name, :email]
       end
     end
 
@@ -110,10 +109,10 @@ describe Formup do
 
       it "returned hash does'nt contain id key(declared by aliases)" do
         params = @obj.params_for(:key2)
-        expect(params.length).to eq 2
+        expect(params.length).to eq 1
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
-        expect(params.key?(:email)).to eq true
+        expect(params.key?(:email)).to eq false
       end
     end
 
@@ -128,10 +127,10 @@ describe Formup do
 
       it "returned hash does'nt contain id key(declared by aliases)" do
         params = @obj.params_for(:key2, false)
-        expect(params.length).to eq 2
+        expect(params.length).to eq 1
         expect(params.key?(:id)).to eq true
         expect(params.key?(:name)).to eq false
-        expect(params.key?(:email)).to eq true
+        expect(params.key?(:email)).to eq false
       end
     end
 

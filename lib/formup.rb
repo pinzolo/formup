@@ -19,15 +19,6 @@ module Formup
 
   # Class methods {{{
   module ClassMethods
-    def exclude_attributes(*attributes)
-      if attributes && attributes.length > 0
-        @exclude_attributes = attributes
-      else
-        @exclude_attributes ||= [:id]
-      end
-      @exclude_attributes
-    end
-
     def sources
       initialize_sources
       @sources.dup
@@ -36,7 +27,7 @@ module Formup
     def source(key, options={})
       initialize_sources
       attribute_defs = create_attribute_defs(key, options[:attributes], options[:aliases])
-      @sources[key] = attribute_defs
+      @sources[key] = Formup::Source.new(key, attribute_defs, options[:excludes])
       deploy_attributes(attribute_defs)
     end
 
@@ -44,14 +35,14 @@ module Formup
     def create_attribute_defs(key, attributes, aliases)
       attribute_defs = {}.with_indifferent_access
 
-      if aliases
-        aliases.each do |k, v|
-          attribute_defs[k.to_s] = v.to_s
-        end
-      end
       if attributes
         attributes.each do |attr|
           attribute_defs[attr.to_s] = "#{key}_#{attr}"
+        end
+      end
+      if aliases
+        aliases.each do |k, v|
+          attribute_defs[k.to_s] = v.to_s
         end
       end
       attribute_defs
@@ -78,8 +69,9 @@ module Formup
     parameters = {}.with_indifferent_access
     return parameters unless self.class.sources.key?(key)
 
-    self.class.sources[key].inject(parameters) do |result, (key, value)|
-      result[key] = __send__(value) if full || self.class.exclude_attributes.all? { |attr| attr.to_sym != key.to_sym }
+    source = self.class.sources[key]
+    source.attribute_defs.inject(parameters) do |result, (key, value)|
+      result[key] = __send__(value) if full || source.excludes.all? { |attr| attr.to_sym != key.to_sym }
       result
     end
   end
