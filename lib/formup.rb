@@ -61,6 +61,17 @@ module Formup
   # }}}
 
   # Instance methods {{{
+  def initialize(params = {})
+    return unless params
+
+    parameters = params.dup.with_indifferent_access
+    self.class.sources.each do |_, src|
+      src.attribute_defs.each do |_, attr|
+        __send__(attr.to_s + "=", parameters[attr]) if parameters.key?(attr)
+      end
+    end
+  end
+
   def persisted?
     false
   end
@@ -76,7 +87,7 @@ module Formup
     end
   end
 
-  def initialize(params = {})
+  def load(params = {})
     params.each do |k, v|
       if self.class.sources.key?(k)
         source = self.class.sources[k]
