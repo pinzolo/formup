@@ -3,6 +3,6 @@ rvm:
   - 1.9.3
   - 2.0.0
 gemfile:
-  - gemfiles: active_model_3_0_x.gemfile
-  - gemfiles: active_model_3_1_x.gemfile
-  - gemfiles: active_model_3_2_x.gemfile
+  - active_model_3_0_x.gemfile
+  - active_model_3_1_x.gemfile
+  - active_model_3_2_x.gemfile
