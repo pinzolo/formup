@@ -66,8 +66,8 @@ module Formup
 
     parameters = params.dup.with_indifferent_access
     self.class.sources.each do |_, src|
-      src.attribute_defs.each do |_, attr|
-        __send__(attr.to_s + "=", parameters[attr]) if parameters.key?(attr)
+      src.attribute_defs.each do |attr_def|
+        __send__(attr_def.attr.to_s + "=", parameters[attr_def.attr]) if parameters.key?(attr_def.attr)
       end
     end
   end
@@ -81,8 +81,8 @@ module Formup
     return parameters unless self.class.sources.key?(key)
 
     source = self.class.sources[key]
-    source.attribute_defs.inject(parameters) do |result, (key, value)|
-      result[key] = __send__(value) if full || source.excludes.all? { |attr| attr.to_sym != key.to_sym }
+    source.attribute_defs.inject(parameters) do |result, attr_def|
+      result[attr_def.base] = __send__(attr_def.attr) if full || source.excludes.all? { |attr| attr.to_s != attr_def.base }
       result
     end
   end
@@ -91,9 +91,9 @@ module Formup
     params.each do |k, v|
       if self.class.sources.key?(k)
         source = self.class.sources[k]
-        source.attribute_defs.each do |base, attr|
-          value = extract_value(v, base)
-          __send__(attr.to_s + "=", value) if value
+        source.attribute_defs.each do |attr_def|
+          value = extract_value(v, attr_def.base)
+          __send__(attr_def.attr + "=", value) if value
         end
       end
     end
