@@ -67,9 +67,13 @@ module Formup
     parameters = params.dup.with_indifferent_access
     self.class.sources.each do |_, src|
       src.attribute_defs.each do |attr_def|
-        __send__(attr_def.attr.to_s + "=", parameters[attr_def.attr]) if parameters.key?(attr_def.attr)
+        __send__(attr_def.attr.to_s + "=", parameters.delete(attr_def.attr)) if parameters.key?(attr_def.attr)
       end
     end
+    handle_extra_params(parameters) unless parameters.empty?
+  end
+
+  def handle_extra_params(parameters)
   end
 
   def persisted?
