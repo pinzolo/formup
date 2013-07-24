@@ -1,5 +1,7 @@
 # Formup
 
+[![Build Status](https://secure.travis-ci.org/pinzolo/formup.png)](http://travis-ci.org/pinzolo/formup)
+
 TODO: Write a gem description
 
 ## Installation
