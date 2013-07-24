@@ -29,18 +29,18 @@ describe Formup do
       end
 
       it "has values joined key and attributes" do
-        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr1]).to eq "key1_attr1"
-        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr2]).to eq "key1_attr2"
-        expect(TestClassForSourceCalled.sources[:key1].attribute_defs[:attr3]).to eq "key1_attr3"
-        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr1]).to eq "key3_attr1"
-        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr2]).to eq "key3_attr2"
+        expect(TestClassForSourceCalled.sources[:key1].attr(:attr1)).to eq "key1_attr1"
+        expect(TestClassForSourceCalled.sources[:key1].attr(:attr2)).to eq "key1_attr2"
+        expect(TestClassForSourceCalled.sources[:key1].attr(:attr3)).to eq "key1_attr3"
+        expect(TestClassForSourceCalled.sources[:key3].attr(:attr1)).to eq "key3_attr1"
+        expect(TestClassForSourceCalled.sources[:key3].attr(:attr2)).to eq "key3_attr2"
       end
 
       it "has values given by aliases" do
-        expect(TestClassForSourceCalled.sources[:key2].attribute_defs[:attr1]).to eq "alias1"
-        expect(TestClassForSourceCalled.sources[:key2].attribute_defs[:attr2]).to eq "alias2"
-        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr3]).to eq "alias3"
-        expect(TestClassForSourceCalled.sources[:key3].attribute_defs[:attr4]).to eq "alias4"
+        expect(TestClassForSourceCalled.sources[:key2].attr(:attr1)).to eq "alias1"
+        expect(TestClassForSourceCalled.sources[:key2].attr(:attr2)).to eq "alias2"
+        expect(TestClassForSourceCalled.sources[:key3].attr(:attr3)).to eq "alias3"
+        expect(TestClassForSourceCalled.sources[:key3].attr(:attr4)).to eq "alias4"
       end
 
       it "has excludes" do
