@@ -3,6 +3,8 @@
 [![Build Status](https://secure.travis-ci.org/pinzolo/formup.png)](http://travis-ci.org/pinzolo/formup)
 
 Formup is rubygem for creating data model based form class.
+Formup use activemodel gem.(~> 3.2.0)
+You can get the benefits of ActiveModel.  ex) validations, application to `form_for` etc.
 
 ## Installation
 
