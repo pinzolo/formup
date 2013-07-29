@@ -2,10 +2,7 @@
 require "formup/version"
 require "formup/source"
 require "active_support/concern"
-require "active_model/conversion"
-require "active_model/validations"
-require "active_model/naming"
-require "active_model/translation"
+require "active_model"
 
 module Formup
   extend ActiveSupport::Concern
