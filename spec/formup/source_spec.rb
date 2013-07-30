@@ -15,20 +15,6 @@ describe Formup::Source do
           expect(@src.attribute_defs).not_to be_nil
         end
       end
-
-      describe "#excludes" do
-        it "returns Array" do
-          expect(@src.excludes).to be_a_instance_of(Array)
-        end
-
-        it "has 1 item" do
-          expect(@src.excludes.length).to eq 1
-        end
-
-        it "item is :id" do
-          expect(@src.excludes.first).to eq :id
-        end
-      end
     end
 
     context "with string key" do
@@ -153,42 +139,6 @@ describe Formup::Source do
           it "returns same value when string argument" do
             expect(@src.attr(:name)).to eq "nickname"
           end
-        end
-      end
-    end
-
-    context "with symbol excludes" do
-      before do
-        @src = Formup::Source.new(:user, {:name => :nickname, :email => :user_email}, :email)
-      end
-
-      describe "#excludes" do
-        it "returns Array" do
-          expect(@src.excludes).to be_a_instance_of(Array)
-        end
-
-        it "contains :email" do
-          expect(@src.excludes.include?(:email)).to eq true
-        end
-      end
-    end
-
-    context "with array exceludes" do
-      before do
-        @src = Formup::Source.new(:user, {:name => :nickname, :email => :user_email}, [:name, :email])
-      end
-
-      describe "#excludes" do
-        it "returns Array" do
-          expect(@src.excludes).to be_a_instance_of(Array)
-        end
-
-        it "contains :name" do
-          expect(@src.excludes.include?(:name)).to eq true
-        end
-
-        it "contains :email" do
-          expect(@src.excludes.include?(:email)).to eq true
         end
       end
     end
