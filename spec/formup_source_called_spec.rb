@@ -42,12 +42,6 @@ describe Formup do
         expect(TestClassForSourceCalled.sources[:key3].attr(:attr3)).to eq "alias3"
         expect(TestClassForSourceCalled.sources[:key3].attr(:attr4)).to eq "alias4"
       end
-
-      it "has excludes" do
-        expect(TestClassForSourceCalled.sources[:key1].excludes).to eq [:id]
-        expect(TestClassForSourceCalled.sources[:key2].excludes).to eq [:attr1]
-        expect(TestClassForSourceCalled.sources[:key3].excludes).to eq [:attr3, :attr4]
-      end
     end
 
     it "define accessor methods by attributes option" do

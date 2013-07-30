@@ -24,7 +24,7 @@ module Formup
     def source(key, options={})
       initialize_sources
       attribute_defs = create_attribute_defs(key, options[:attributes], options[:aliases])
-      @sources[key] = Formup::Source.new(key, attribute_defs, options[:excludes])
+      @sources[key] = Formup::Source.new(key, attribute_defs)
       deploy_attributes(attribute_defs)
     end
 
@@ -77,13 +77,20 @@ module Formup
     false
   end
 
-  def params_for(key, full = false)
+  def params_for(key,*excludes_attrs)
+    if excludes_attrs && excludes_attrs.first == false
+       excludes = []
+    else
+      excludes = [excludes_attrs].flatten.compact
+      excludes << :id if excludes.empty?
+    end
+
     parameters = {}.with_indifferent_access
     return parameters unless self.class.sources.key?(key)
 
     source = self.class.sources[key]
     source.attribute_defs.inject(parameters) do |result, attr_def|
-      result[attr_def.base] = __send__(attr_def.attr) if full || source.excludes.all? { |attr| attr.to_s != attr_def.base }
+      result[attr_def.base] = __send__(attr_def.attr) if excludes.all? { |attr| attr.to_s != attr_def.base }
       result
     end
   end
