@@ -63,5 +63,16 @@ describe Formup do
       expect(@obj.respond_to?(:alias3)).to eq true
       expect(@obj.respond_to?(:alias4)).to eq true
     end
+
+    it "define boolean methods" do
+      expect(@obj.respond_to?(:key1_attr1?)).to eq true
+      expect(@obj.respond_to?(:key1_attr2?)).to eq true
+      expect(@obj.respond_to?(:key1_attr3?)).to eq true
+      expect(@obj.respond_to?(:key3_attr2?)).to eq true
+      expect(@obj.respond_to?(:alias1?)).to eq true
+      expect(@obj.respond_to?(:alias2?)).to eq true
+      expect(@obj.respond_to?(:alias3?)).to eq true
+      expect(@obj.respond_to?(:alias4?)).to eq true
+    end
   end
 end
