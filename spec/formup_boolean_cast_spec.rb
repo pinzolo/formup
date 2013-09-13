@@ -64,7 +64,7 @@ describe Formup do
       before do
         @model.key_value = false
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -73,7 +73,7 @@ describe Formup do
       before do
         @model.key_value = 0
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -82,7 +82,7 @@ describe Formup do
       before do
         @model.key_value = '0'
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -91,7 +91,7 @@ describe Formup do
       before do
         @model.key_value = 'f'
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -100,7 +100,7 @@ describe Formup do
       before do
         @model.key_value = 'false'
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -109,7 +109,7 @@ describe Formup do
       before do
         @model.key_value = 10
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -118,7 +118,7 @@ describe Formup do
       before do
         @model.key_value = 'test'
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -127,7 +127,7 @@ describe Formup do
       before do
         @model.key_value = :test
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
@@ -136,7 +136,7 @@ describe Formup do
       before do
         @model.key_value = nil
       end
-      it "returns true" do
+      it "returns false" do
         expect(@model.key_value?).to eq false
       end
     end
