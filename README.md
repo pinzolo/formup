@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/pinzolo/formup.png)](http://travis-ci.org/pinzolo/formup)
 [![Coverage Status](https://coveralls.io/repos/pinzolo/formup/badge.png)](https://coveralls.io/r/pinzolo/formup)
+[![Code Climate](https://codeclimate.com/github/pinzolo/formup.png)](https://codeclimate.com/github/pinzolo/formup)
 
 Formup is rubygem for creating data model based form class.
 Formup use activemodel gem.(>= 3.2.0)
